@@ -116,6 +116,14 @@ inline uint funG2strLocus (uint SAstr, uint const N, char const GstrandBit, uint
 void Genome::genomeGenerate() {
 
     //check parameters
+    if (10*fasta_size<=RAM )
+    {
+        ostringstream errOut;
+        errOut << "EXITING because of Insuficent Memory (RAM + Swap) \n";
+        errOut << "You need at least 10*genome_fasta_size(bytes) of available RAM+Swap to be able to generate the index using the specified parameters. Otherwise the process would be killed.\n";
+        errOut << "SOLUTION: re-run genome generation \n";
+        exitWithError(errOut.str(),std::cerr, P.inOut->logMain, EXIT_CODE_INPUT_FILES, P);
+    }
     if (sjdbOverhang<=0 && (pGe.sjdbFileChrStartEnd.at(0)!="-" || pGe.sjdbGTFfile!="-"))
     {
         ostringstream errOut;
